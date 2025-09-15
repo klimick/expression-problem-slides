@@ -1,6 +1,6 @@
 ---
-title: Demo
-description: Demo TUM Marp Template
+title: Expression problem
+description: Slides for conf.phpyh.ru
 class: invert
 _class:
   - invert
