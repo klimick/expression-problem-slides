@@ -386,6 +386,10 @@ function toString(Expr $expr): string {
 - Исчерпывающая обработка вариантов
 - Возможность ссылаться на все по одному имени
 
+---
+
+# Sum type адекватного человека
+
 ```scala
 enum Expr:
   case Add(left: Expr, right: Expr)
