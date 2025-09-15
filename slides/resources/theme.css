@@ -1,0 +1,38 @@
+/* @theme phpyh */
+
+@import 'default';
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+
+.two-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+section {
+  font-family: "Unbounded", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  background-image: url('./resources/phpyh-conf-logo.png');
+  background-repeat: no-repeat;
+  background-position: right 40px bottom 10px;
+  background-size: 20%;
+}
+
+section.invert {
+  background-color: #000A2F;
+  color: #fff;
+}
+
+section.invert h1,
+section.invert footer,
+section.invert::after {
+  color: #fff;
+}
+
+section::after {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+  content: attr(data-marpit-pagination);
+}
