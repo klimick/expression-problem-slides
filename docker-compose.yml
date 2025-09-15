@@ -1,0 +1,20 @@
+services:
+  generate:
+    image: marpteam/marp-cli
+    volumes:
+      - ./:/home/marp/app
+    environment:
+      LANG: ru_RU.UTF-8
+      MARP_USER: ""
+    command: --input-dir ./slides
+  serve:
+    image: marpteam/marp-cli
+    volumes:
+      - ./:/home/marp/app
+    environment:
+      LANG: ru_RU.UTF-8
+      MARP_USER: ""
+    ports:
+      - "8080:8080"
+      - "37717:37717"
+    command: --watch --server ./slides

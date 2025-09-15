@@ -1,0 +1,10 @@
+allowLocalFiles: true
+options:
+  looseYAML: false
+  markdown:
+    breaks: true
+bespoke:
+  progress: true
+output: "./build/"
+themeSet: "./slides/resources/theme.css"
+theme: phpyh
