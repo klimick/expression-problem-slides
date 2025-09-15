@@ -388,7 +388,7 @@ function toString(Expr $expr): string {
 
 ---
 
-# Sum type адекватного человека
+# Например
 
 ```scala
 enum Expr:
