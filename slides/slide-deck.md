@@ -414,8 +414,7 @@ def eval(expr: Expr): Int = expr match
 
 ```php
 /** @template T */
-interface ExprVisitor
-{
+interface ExprVisitor {
     /** @return T */
     public function visitNum(Num $exp): mixed;
 
@@ -637,8 +636,7 @@ new Add(
 /**
  * @template R
  */
-interface Expr
-{
+interface Expr {
     /**
      * @return R
      */
@@ -967,8 +965,7 @@ function noop(mixed $fa): mixed {
 
 ```php
 /** @template R of type-lam(x): mixed */
-interface ExprVisitor
-{
+interface ExprVisitor {
     /** @return R<int> */
     public function visitNum(Num $exp): mixed;
 
