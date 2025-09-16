@@ -2,13 +2,8 @@
 title: Expression problem
 description: Slides for conf.phpyh.ru
 class: invert
-_class:
-  - invert
-  - lead
-
 paginate: true
 marp: true
-math: mathjax
 ---
 
 <!-- _paginate: skip -->
