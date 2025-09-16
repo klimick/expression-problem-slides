@@ -549,12 +549,6 @@ $evaluated = FortyTwo::Instance->accept(Evaluator::Visitor);
 
 ---
 
-# У вас должен быть выбор
-
-![left w:2400 h:440](resources/6-fp-oop-summary.png)
-
----
-
 # Type safety
 
 ---
@@ -836,7 +830,7 @@ var val = num.Accept(new Evaluator<int>());
 
 ## Higher kinded type
 
-![bg height:70% right](resources/7-need-more-types.jpg)
+![bg height:70% right](resources/6-need-more-types.jpg)
 
 ---
 
@@ -932,11 +926,13 @@ object DeepClone extends ExpVisitor[[x] =>> Expr[x]]:
 
 <!-- _paginate: false -->
 
-![bg height:100%](resources/9-twenty-minutes-minutes-adventure.png)
+![bg height:100%](resources/7-twenty-minutes-minutes-adventure.png)
 
 ---
 
-![bg](resources/10-two-month-later.png)
+<!-- _paginate: false -->
+
+![bg](resources/8-two-month-later.png)
 
 ---
 
@@ -1014,6 +1010,12 @@ enum Stringifier implements ExprVisitor {
 ---
 
 # Зачем
+
+---
+
+# У вас должен быть выбор
+
+![left w:2400 h:440](resources/9-fp-oop-summary.png)
 
 ---
 
