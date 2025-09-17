@@ -231,7 +231,7 @@ toString(new Mul(/* ... */));
 
 # Product type
 
-Индексированный список типов.
+Индексированный список типов
 
 ```php
 final readonly class Person {
