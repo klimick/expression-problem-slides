@@ -1004,19 +1004,293 @@ enum Stringifier implements ExprVisitor {
 
 ---
 
-<!-- _paginate: false -->
-
-![bg height:100% width:100%](resources/10-why.png)
-
----
-
 # У вас должен быть выбор
 
 ![left w:2400 h:440](resources/9-fp-oop-summary.png)
 
 ---
 
+# EP solution
+
+---
+
+# Initial encoding VS Final encoding
+
+<div class="two-columns">
+
+```php
+class Num implements Expr {
+    /* (int $value) */
+}
+
+class Add implements Expr {
+    /* (int $l, int $r) */
+}
+
+$fortyTwo = new Add(
+    new Num(1),
+    new Num(41),
+);
+```
+
+```php
+function num(int $value): int {
+    return $value;
+}
+
+function add(int $l, int $r): int {
+    return $l + $r;
+}
+
+$fortyTwo = add(
+    num(1),
+    num(41),
+);
+```
+
+</div>
+
+---
+
+# Final encoding
+
+- Легко расширяется новыми вариантами
+- Но имеет одну возможную интерпретацию
+
+```php
+function mul(int $l, int $r): int {
+    return $l * $r;
+}
+
+$doubledFortyTwo = mul(num(2), $fortyTwo);
+```
+
+---
+
+# Выделим семантику
+
+```php
+interface ExprSem
+{
+    public function num(int $value): int;
+
+    public function add(int $left, int $right): int;
+}
+```
+
+---
+
+# Уберем конкретный тип данных
+
+```php
+/** @template TRepr */
+interface ExprSem
+{
+    /**
+     * @return TRepr
+     */
+    public function num(int $value): mixed;
+
+    /** 
+     * @param TRepr $left
+     * @param TRepr $right
+     * @return TRepr
+     */
+    public function add(mixed $left, mixed $right): mixed;
+}
+```
+
+---
+
+# Tagless final
+
+```php
+/** 
+ * @template TRepr
+ * @param ExprSem<TRepr> $exprS
+ * @return TRepr
+ */
+function fortyTwo(ExprSem $exprS): mixed {
+    return $exprS->add(
+        left: $exprS->num(1),
+        right: $exprS->num(41),
+    );
+}
+```
+
+---
+
+# Интерпретация
+
+<div class="two-columns">
+
+```php
+/** @implements ExprSem<int> */
+enum Evaluator implements ExprSem {
+    case Instance;
+
+    public function num(int $value): mixed {
+        return $value;
+    }
+
+    public function add(mixed $left, mixed $right): mixed {
+        return $left + $right;
+    }
+}
+```
+
+```php
+/** @implements ExprSem<string> */
+enum Stringifier implements ExprSem {
+    case Instance;
+
+    public function num(int $value): mixed {
+        return "{$value}";
+    }
+
+    public function add(mixed $left, mixed $right): mixed {
+        return "({$left} + {$right})";
+    }
+}
+```
+
+</div>
+
+---
+
+# Использование
+
+```php
+/** 
+ * @template TRepr
+ * @param ExprSem<TRepr> $exprS
+ * @return TRepr
+ */
+function fortyTwo(ExprSem $exprS): mixed { /* ... */ }
+
+$evaluated = fortyTwo(Evaluator::Instance);
+$asString = fortyTwo(Stringifier::Instance);
+
+// (1 + 41) = 42
+var_dump("{$asString} = {$evaluated}");
+```
+
+---
+
+# Новый вариант
+
+```php
+/** @template TRepr */
+interface MulSem {
+    /** 
+     * @param TRepr $left
+     * @param TRepr $right
+     * @return TRepr
+     */
+    public function mul(mixed $left, mixed $right): mixed;
+}
+```
+
+---
+
+# Новая интерпретация
+
+<div class="two-columns">
+
+```php
+/** @implements MulSem<int> */
+enum MulEvaluator implements MulSem {
+    case Instance;
+
+    public function mul(mixed $left, mixed $right): mixed {
+        return $left * $right;
+    }
+}
+```
+
+```php
+/** @implements ExprSem<string> */
+enum MulStringifier implements ExprSem {
+    case Instance;
+
+    public function mul(mixed $left, mixed $right): mixed {
+        return "({$left} * {$right})";
+    }
+}
+```
+
+</div>
+
+---
+
+# Старые/новые варианты совместимы
+
+```php
+/** 
+ * @template TRepr
+ * @param ExprSem<TRepr> $exprS
+ * @param MulSem<TRepr> $mulS
+ * @return TRepr
+ */
+function doubledFortyTwo(ExprSem $exprS, MulSem $mulS): mixed {
+    return $mulS->mul(
+        left: $exprS->num(2),
+        right: fortyTwo($exprS),
+    );
+}
+```
+
+---
+
+# Старые/новые операции совместимы
+
+```php
+/** 
+ * @template TRepr
+ * @param ExprSem<TRepr> $exprS
+ * @param MulSem<TRepr> $mulS
+ * @return TRepr
+ */
+function doubledFortyTwo(ExprSem $exprS, MulSem $mulS): mixed { /* ... */}
+
+$evaluated = doubledFortyTwo(Evaluator::Instance, MulEvaluator::Instance);
+$asString = doubledFortyTwo(Stringifier::Instance, MulStringifier::Instance);
+
+// (2 * (1 + 41)) = 84
+var_dump("{$asString} = {$evaluated}");
+```
+
+---
+
+# Вы отказались от данных
+
+И получили настоящий OPEN CLOSED! Вы можете:
+
+- Добавлять новые варианты
+- Добавлять новые операции
+- Быть полностью type safe
+
+---
+
+# А так же
+
+Вы потеряли:
+
+- Instanceof
+- Reflection
+- Universal equality
+
+---
+
+<!-- _paginate: false -->
+
+![bg height:100% width:100%](resources/10-why.png)
+
+---
+
 # Typhoon
+
+Невозможно написать в type safe манере
 
 ```php
 /**
@@ -1032,22 +1306,8 @@ $numbersDecoder = makeJsonDecoder($numbers);
 dump($numbersDecoder->decode('[1, 2, 3]'));
 ```
 
-Невозможно написать в type safe манере. Почему?
-
 ---
 
 # Typhoon
 
-Добавление новых вариантов типа - невозможно. Почему?
-
----
-
-# EP solution ???
-
----
-
-# Это просто интересно
-
----
-
-# THX
+Добавление новых вариантов типа невозможно
