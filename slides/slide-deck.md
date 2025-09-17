@@ -1004,7 +1004,9 @@ enum Stringifier implements ExprVisitor {
 
 ---
 
-# Зачем
+<!-- _paginate: false -->
+
+![bg height:100% width:100%](resources/10-why.png)
 
 ---
 
