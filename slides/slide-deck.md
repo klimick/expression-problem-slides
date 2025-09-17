@@ -1311,3 +1311,7 @@ dump($numbersDecoder->decode('[1, 2, 3]'));
 # Typhoon
 
 Добавление новых вариантов типа невозможно
+
+---
+
+![bg height:100%](resources/11-end.png)
