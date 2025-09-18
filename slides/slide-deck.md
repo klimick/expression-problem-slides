@@ -174,6 +174,10 @@ var_dump($mul->evaluate());
 
 ---
 
+![bg height:100% width:100%](./resources/open-closed.png)
+
+---
+
 # А как привести к строке?
 
 ---
