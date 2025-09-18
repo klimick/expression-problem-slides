@@ -182,8 +182,8 @@ var_dump($mul->evaluate());
 
 ---
 
-# Дамы и господа
-# У нас мажорный релиз
+## Дамы и господа
+У нас мажорный релиз!
 
 ![bg right height:5in](resources/4-ladies-and-genteelness.jpg)
 
