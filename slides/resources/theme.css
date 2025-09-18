@@ -17,20 +17,17 @@ section {
   background-repeat: no-repeat;
   background-position: right 40px bottom 10px;
   background-size: 20%;
-}
-
-section.invert {
   background-color: #000A2F;
   color: #fff;
 }
 
-section.invert h1,
-section.invert footer,
-section.invert::after {
+section h1,
+section footer {
   color: #fff;
 }
 
 section::after {
+  color: #fff;
   position: absolute;
   top: 40px;
   right: 40px;
