@@ -943,7 +943,7 @@ function noop(mixed $fa): mixed {
 
 ---
 
-# Faked GADT
+# GADT Visitor
 
 ```php
 /** @template R of type-lam(x): mixed */
