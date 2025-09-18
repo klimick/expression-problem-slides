@@ -142,7 +142,7 @@ var_dump($complex->evaluate());
 
 ---
 
-# Добавим умножение
+# Добавим новый вариант
 
 ```php  
 final readonly class Mul implements Expr {
