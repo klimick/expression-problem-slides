@@ -206,9 +206,9 @@ toString(new Mul(/* ... */));
 
 ---
 
-# Не нужно добавлять новые варианты?
+<!-- _paginate: false -->
 
-Нужно добавлять новые операции?
+![bg width:100%](resources/new-ops-without-fear.png)
 
 ---
 
