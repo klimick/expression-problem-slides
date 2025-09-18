@@ -729,10 +729,10 @@ enum Expr[T]:
 # Вывод типов в pattern match
 
 ```scala 3
-def eval[T](e: Expr[T]): T = e match
+def evaluate[T](e: Expr[T]): T = e match
   case Num(value) => value
-  case Add(left, right) => eval(left) + eval(right)
-  case IntEq(left, right) => eval(left) == eval(right)
+  case Add(left, right) => evaluate(left) + evaluate(right)
+  case IntEq(left, right) => evaluate(left) == evaluate(right)
 ```
 
 ---
