@@ -304,7 +304,7 @@ function unionNightmare(Num|Add|Sub|Mul|Div|Eq|Lam|App...): void {}
 enum Expr {
     case Num(int $value);
     case Add(Expr $left, Expr $right);
-    case Sub(Expr $left, Expr $right);
+    case Mul(Expr $left, Expr $right);
     // ...
 }
 ```
