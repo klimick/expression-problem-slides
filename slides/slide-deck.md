@@ -429,24 +429,22 @@ final readonly class Num implements Expr {
 
 # Операции добавлять легко
 
+<div class="two-columns">
+
 ```php
 /** @implements ExprVisitor<int> */
 enum Evaluate implements ExprVisitor {
     case Visitor;
 
     public function visitNum(Num $e): int {
-        return $e->value;
+      return $e->value;
     }
 
     public function visitAdd(Add $e): int {
-        return $e->left->accept($this) + $e->right->accept($this);
+      return $e->left->accept($this) + $e->right->accept($this);
     }
 }
 ```
-
----
-
-# Крайне легко
 
 ```php
 /** @implements ExprVisitor<string> */
@@ -454,14 +452,16 @@ enum ToString implements ExprVisitor {
     case Visitor;
 
     public function visitNum(Num $e): string {
-        return "{$e->value}";
+      return "{$e->value}";
     }
 
     public function visitAdd(Add $e): string {
-        return "{$e->left->accept($this)} + {$e->right->accept($this)}";
+      return "{$e->left->accept($this)} + {$e->right->accept($this)}";
     }
 }
 ```
+
+</div>
 
 ---
 
