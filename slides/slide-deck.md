@@ -746,7 +746,12 @@ def eval[T](e: Expr[T]): T = e match
 # Generalized type constraint
 
 ```csharp
-public interface IExpVisitor<T, R>
+public interface IExpr<T>
+{
+    public R Accept<R>(ExprVisitor<T, R> v);
+}
+
+public interface IExprVisitor<T, R>
 {
     R VisitNum(Num e) where T : int;
     R VisitAdd(Add e) where T : int;
@@ -756,13 +761,15 @@ public interface IExpVisitor<T, R>
 
 ---
 
-# Evaluator
+# GADT Evaluator
 
 ```csharp
-public class Evaluator<T> : IExpVisitor<T, T> {
-    T VisitNum(Num e) where T : int => e.number
+public class Evaluator<T> : IExprVisitor<T, T> {
+    T VisitNum(Num e) where T : int =>
+        e.number
 
-    T VisitAdd(Add e) where T : int => e.Left.Accept(this) + e.Right.Accept(this)
+    T VisitAdd(Add e) where T : int =>
+        e.Left.Accept(this) + e.Right.Accept(this)
 
     T VisitIntEq(IntEq e) where T : bool {
         // НЕ МОЖЕМ ПЕРЕИСПОЛЬЗОВАТЬ
@@ -775,31 +782,29 @@ public class Evaluator<T> : IExpVisitor<T, T> {
 
 ---
 
-# И почему это работает?
+# Как это должно было использоваться
 
 ```csharp
-public class Add : Expr<int> {
-    public required Expr<int> Right { init; get; }
-    public required Expr<int> Left { init; get; }
+public class Add : IExpr<int> {
+    /* ... */
 
     public R Accept<R>(ExprVisitor<int, R> v) => v.visitAdd(this);
 }
 
-var num = new Add {
-    Left = new Num { Value = 1},
-    Right = new Num { Value = 41 },
-};
+IExpr<int> num = new Add /* ... */;
 
-var val = num.Accept(new Evaluator<int>());
+int val = num.Accept(new Evaluator<int>());
 ```
 
 ---
 
-# И зачем нам это?
+# Но этой фичи почти нигде нет
 
 ---
 
-## Higher kinded type
+# HIGHER
+# KINDED
+# TYPE
 
 ![bg height:70% right](resources/6-need-more-types.jpg)
 
@@ -807,23 +812,39 @@ var val = num.Accept(new Evaluator<int>());
 
 # Type level функция
 
+<div class="two-columns">
+
 ```scala 3
-// Функция принимает функцию
-type MakeTuple[MkElem[x]] = (MkElem[Int], MkElem[String])
+type MakeTuple[MkElem[x]] = (
+    MkElem[Int],
+    MkElem[String],
+)
 
-// Принимает A и возвращает A
 type Identity[A] = A
-
-// Принимает A и приводит его к String
 type ToString[A] = String
 
 summon[MakeTuple[Identity] =:= (Int, String)]
 summon[MakeTuple[ToString] =:= (String, String)]
 ```
 
+```php
+$makeTuple = fn ($mkElem) => [
+    $mkElem(42),
+    $mkElem('str'),
+];
+
+$identity = fn ($a) => $a;
+$toString = fn ($a) => (string) $a;
+
+assert($makeTuple($identity) === [42, 'str']);
+assert($makeTuple($toString) === ['42', 'str']);
+```
+
+</div>
+
 ---
 
-# Type-level VS term-level
+# Type level функция
 
 <div class="two-columns">
 
@@ -850,12 +871,6 @@ assert($mapped === [2, 3, 4]);
 ```
 
 </div>
-
----
-
-# Тотальная утилизация type-level
-
-https://github.com/gvergnaud/hotscript
 
 ---
 
