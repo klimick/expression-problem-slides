@@ -76,7 +76,7 @@ var_dump([
 
 ---
 
-# Интерфейсы
+# Интерфейс
 
 ```php
 interface Expr {
@@ -89,7 +89,9 @@ final readonly class Add implements Expr {/* ... */}
 
 ---
 
-# Числовой литерал
+# Реализации
+
+<div class="two-columns">
 
 ```php
 final readonly class Num implements Expr {
@@ -103,53 +105,39 @@ final readonly class Num implements Expr {
 }
 ```
 
----
-
-# Сложение
-
 ```php
 final readonly class Add implements Expr {
     public function __construct(
-        public Expr $left,
-        public Expr $right,
+        public Expr $left, public Expr $right,
     ) {}
 
     public function evaluate(): int {
-        return $this->left->evaluate() + $this->right->evaluate();
+        return $this->left->evaluate() +
+               $this->right->evaluate();
     }
 }
 ```
+
+</div>
 
 ---
 
 # Пример использования
 
 ```php
-$add = new Add(
+$simple = new Add(
   left: new Num(1),
   right: new Num(41),
 );
 
-var_dump($add->evaluate());
-```
+var_dump($simple->evaluate());
 
----
-
-# Еще пример
-
-```php
-$add = new Add(
-  left: new Add(
-      left: new Num(1),
-      right: new Num(20),
-  ),
-  right: new Add(
-      left: new Num(20),
-      right: new Num(1),
-  ),
+$complex = new Add(
+  left: new Add(left: new Num(1), right: new Num(20)),
+  right: new Add(left: new Num(20), right: new Num(1)),
 );
 
-var_dump($exp->evaluate());
+var_dump($complex->evaluate());
 ```
 
 ---
@@ -181,7 +169,7 @@ $mul = new Mul(
     right: $add,
 );
 
-var_dump($exp->evaluate());
+var_dump($mul->evaluate());
 ```
 
 ---
