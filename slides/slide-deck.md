@@ -375,22 +375,6 @@ function toString(Expr $expr): string {
 
 ---
 
-# Например
-
-```scala
-enum Expr:
-  case Add(left: Expr, right: Expr)
-  case Num(value: Int)
-// ...множество остальных вариантов
-
-def eval(expr: Expr): Int = expr match
-  case Expr.Add(left, right) => eval(left) + eval(right)
-  case Expr.Num(value) => value
-// ...множество остальных вариантов
-```
-
----
-
 # Visitor
 
 ![bg right height:70%](resources/5-visitor.png)
